@@ -29,6 +29,7 @@ class AdminLoginController extends Controller
 
     public function login(Request $request)
     {
+        // Validate the form data
         $this->validate($request, [
            'email' => 'required|email',
             'password' => 'required|min:6'
@@ -41,12 +42,13 @@ class AdminLoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-
+        // Attempt to log the user in
         if(Auth::guard('admin')->attempt(['email'=>$request->email, 'password' => $request->password], $request->remember)){
             return redirect()->intended(route('admin.dashboard'));
         }
 
-//        return redirect()->back()->withInput($request->only('email'));
+//        return redirect()->back()->withInput($request->only('email')); // If unsuccesfull, the redirect to their intendet location
+
         // Agregado solo tttl para el limite
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
@@ -66,4 +68,11 @@ class AdminLoginController extends Controller
     {
         return 'email';
     }
+
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+        return redirect('/');
+    }
+
 }
