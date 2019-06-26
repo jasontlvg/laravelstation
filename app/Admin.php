@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -44,7 +44,7 @@ class Admin extends Authenticatable
 
     public function sendPasswordResetNotification($token)
     {
-        // \Illuminate\Auth\Notifications\ResetPassword -> import necesario
+        // use App\Notifications\AdminResetPasswordNotification;
         $this->notify(new AdminResetPasswordNotification($token));
     }
 
